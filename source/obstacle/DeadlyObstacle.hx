@@ -17,9 +17,4 @@ class DeadlyObstacle extends Obstacle
 		player.kill();
 		deadlyObstacle.kill();
 	}
-
-	public static inline function construct()
-	{
-		return new DeadlyObstacle();
-	}
 }

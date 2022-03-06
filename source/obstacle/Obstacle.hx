@@ -40,11 +40,6 @@ class Obstacle extends FlxSprite
 	{
 		return x + width < FlxG.camera.scroll.x;
 	}
-
-	public static inline function construct()
-	{
-		return new Obstacle();
-	}
 }
 
 class ObstacleParameters
