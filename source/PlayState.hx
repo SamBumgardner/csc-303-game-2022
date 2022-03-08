@@ -3,38 +3,74 @@ package;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
+import obstacle.DeadlyObstacle;
 import obstacle.Obstacle;
+import obstacle.ObstacleGenerator;
 import player.Player;
 
 class PlayState extends FlxState
 {
 	var player:Player;
-	var obstacles:FlxGroup;
+
+	var obstacleGenerator:ObstacleGenerator<Obstacle>;
+	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
+
+	var SECONDS_PER_OBSTACLE(default, never):Float = .5;
+	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
 
 	override public function create()
 	{
 		super.create();
 
-		player = new Player(300, 300);
+		player = new Player(FlxG.width / 2, FlxG.height / 2);
 		add(player);
 
-		obstacles = new FlxGroup();
+		setUpObstacles();
+		setUpDeadlyObstacles();
+	}
+
+	private function setUpObstacles()
+	{
+		var generatedObstacles = new FlxTypedGroup<Obstacle>();
 		for (i in 0...10)
 		{
-			var x = 200 + i * 200;
-			var y = 0;
-			var speed = 200;
-			var width = 100;
-			var height = FlxG.random.int(100, 250);
-			obstacles.add(new Obstacle(x, y, speed, width, height));
+			var obstacle = new Obstacle();
+			obstacle.kill();
+			generatedObstacles.add(obstacle);
 		}
-		add(obstacles);
+
+		var baseObstacleParameters = new ObstacleParameters(FlxG.width, FlxG.height, 200, 10, 50);
+		var obstacleVariation = new ObstacleVariation(-1, .9, 1, 2);
+
+		obstacleGenerator = new ObstacleGenerator<Obstacle>(SECONDS_PER_OBSTACLE,
+			baseObstacleParameters, obstacleVariation, generatedObstacles);
+		add(obstacleGenerator.obstacles);
+	}
+
+	private function setUpDeadlyObstacles()
+	{
+		var generatedDeadlyObstacles = new FlxTypedGroup<DeadlyObstacle>();
+		for (i in 0...10)
+		{
+			var obstacle = new DeadlyObstacle();
+			obstacle.kill();
+			generatedDeadlyObstacles.add(obstacle);
+		}
+		var baseDeadlyObstacleParameters = new ObstacleParameters(FlxG.width, FlxG.height, 50, 50,
+			50);
+		var deadlyObstacleVariation = new ObstacleVariation(-1, 1, 1, 1);
+
+		deadlyObstacleGenerator = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_DEADLY_OBSTACLE,
+			baseDeadlyObstacleParameters, deadlyObstacleVariation,
+			generatedDeadlyObstacles);
+		add(deadlyObstacleGenerator.obstacles);
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		FlxG.collide(player, obstacles);
+		FlxG.collide(player, obstacleGenerator.obstacles);
+		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
 	}
 }
