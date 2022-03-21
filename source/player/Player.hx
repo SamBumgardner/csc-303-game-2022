@@ -3,6 +3,9 @@ package player;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
+
+//Add Player Visual, one size
+
 class Player extends FlxSprite
 {
 	public static var SPEEDS(default, never):Array<Int> = [0, 50, 100];
