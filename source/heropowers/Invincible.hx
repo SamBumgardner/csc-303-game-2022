@@ -1,33 +1,37 @@
 package heropowers;
 
 import flixel.util.FlxTimer;
-import flixel.util.FlxTimer.FlxTimerManager;
-import js.html.AbortController;
-import flixel.input.FlxKeyManager;
-import flixel.util.FlxColor;
 import flixel.FlxG;
 
 class Invincible extends HeroPower
 {
-    public function new(X:Float = 0, Y:Float = 0, activeColor:FlxColor)
+    public var invincibleDuration:FlxTimer = new FlxTimer();
+    public function new(X:Float = 0, Y:Float = 0)
 	{
-		super(X, Y, 0xFF800080);
+		super(X, Y);
+        activeColor = 0xFFF33383;
+       
 	}
     public function onTimer(Timer:FlxTimer){
-        this.inUse = false;
+        inUse = false;
     }
+    override public function toString(){
+        return "Invincible";
+    }
+
     override public function update(elapsed:Float)
         {
-           if (this.usable == true){
-               if (FlxG.keys.anyPressed(this.hotkey)){
-                   this.inUse = true;
-                   this.usable = false;
-                   var invincibleDuration:FlxTimer;
+            setAlpha();
+           if (usable == true){
+               if (FlxG.keys.anyPressed(hotkey)){
+                   inUse = true;
+                   usable = false;
                    invincibleDuration.start(4, onTimer, 1);
-
                }
            }else{
-                
+                if(FlxG.keys.justPressed.L){
+                    usable = true;
+                }
            }
         }
 
