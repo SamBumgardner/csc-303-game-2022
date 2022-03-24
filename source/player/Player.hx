@@ -15,7 +15,7 @@ class Player extends FlxSprite {
 
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
-		makeGraphic(16, 16, FlxColor.WHITE);
+		makeGraphic(16, 16, 0xBBBBBBBB);
 		health = maxHealth;
 		acceleration.y = 300;
 	}
