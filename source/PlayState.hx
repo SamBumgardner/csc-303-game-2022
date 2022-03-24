@@ -28,27 +28,21 @@ class PlayState extends FlxState {
 	override public function create() {
 		super.create();
 
-		setUpHeroPower(FlxG.width / 2, FlxG.height / 2, heroPowerSelection);
-		add(heroPower);
-
-		player = new Player(FlxG.width / 2, FlxG.height / 2, heroPower);
+		player = new Player(FlxG.width / 2, FlxG.height / 2);
 		add(player);
+		setUpHeroPower(heroPowerSelection, player);
+		add(heroPower);
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
 	}
 
-	private function setUpHeroPower(x, y, heroPowerSelect:String) {
+	private function setUpHeroPower(heroPowerSelect:String, player:Player) {
 		if (heroPowerSelection == "Invincible") {
-			heroPower = new Invincible(x, y);
+			heroPower = new Invincible(player.x, player.y, player);
 		} else if (heroPowerSelection == "Aegis") {
-			heroPower = new Aegis(x, y);
+			heroPower = new Aegis(player.x, player.y, player);
 		}
-	}
-
-	private function stickyHeroPower() {
-		heroPower.x = player.x - 2;
-		heroPower.y = player.y - 2;
 	}
 
 	private function switchToHeroPowerSelection() {
@@ -88,7 +82,6 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		stickyHeroPower();
 		if (FlxG.keys.justPressed.P) {
 			switchToHeroPowerSelection();
 		}

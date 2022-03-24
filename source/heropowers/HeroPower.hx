@@ -7,12 +7,16 @@ import player.Player;
 
 class HeroPower extends FlxSprite {
 	public var hotkey:Array<FlxKey>;
-	public var activeColor:FlxColor;
 	public var usable:Bool;
 	public var inUse:Bool;
+	public var owner:Player;
 
-	public function new(X:Float = 0, Y:Float = 0) {
+	public function new(X:Float = 0, Y:Float = 0, player:Player) {
 		super(X, Y);
+		owner = player;
+
+		loadGraphicFromSprite(owner);
+		setGraphicSize(Std.int(width * 1.1), Std.int(height * 1.1));
 		alpha = .5;
 		hotkey = [FlxKey.K];
 		usable = true;
@@ -29,10 +33,16 @@ class HeroPower extends FlxSprite {
 		}
 	}
 
+	public function adjustDamage(damage:Float) {
+		return damage;
+	}
+
 	override public function update(elapsed:Float) {
-		if (Player.currentHealth > Player.maxHealth) {
-			Player.currentHealth = Player.maxHealth;
+		if (owner.health > owner.maxHealth) {
+			owner.health = owner.maxHealth;
 			usable = true;
 		}
+		x = owner.x - 2;
+		y = owner.y - 2;
 	}
 }

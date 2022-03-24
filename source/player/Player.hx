@@ -1,27 +1,22 @@
 package player;
 
+import js.html.HeadElement;
 import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 
 class Player extends FlxSprite {
 	public static var SPEEDS(default, never):Array<Int> = [0, 50, 100];
 
 	public var currentPower:HeroPower;
 
-	public static var maxHealth:Int;
-	public static var currentHealth:Int;
+	public var maxHealth:Int;
 
-	public function new(X:Float = 0, Y:Float = 0, heroPower:HeroPower) {
+	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
-		currentPower = heroPower;
-		if (currentPower.toString() == "Aegis") {
-			maxHealth = 4;
-		} else {
-			maxHealth = 3;
-		}
-		currentHealth = maxHealth;
-		currentPower.makeGraphic(20, 20, currentPower.activeColor);
+
+		health = maxHealth;
 		acceleration.y = 300;
 	}
 
@@ -30,7 +25,6 @@ class Player extends FlxSprite {
 		jump();
 
 		if (!isOnScreen()) {
-			currentHealth = 0;
 			kill();
 		}
 		super.update(elapsed);
@@ -49,17 +43,18 @@ class Player extends FlxSprite {
 		}
 	}
 
+	public function setPower(power:HeroPower) {
+		currentPower = power;
+	}
+
+	override function hurt(damage:Float) {
+		super.hurt(currentPower.adjustDamage(damage));
+	}
+
 	override function kill() {
-		if (currentPower.toString() == "Invincible" && currentPower.inUse == true && isOnScreen()) {
-			// Do nothing
-		} else {
-			currentHealth--;
-			if (currentHealth <= 0) {
-				reset(FlxG.width / 2, FlxG.height / 2);
-				currentHealth = maxHealth;
-				currentPower.inUse = false;
-				currentPower.usable = true;
-			}
-		}
+		reset(FlxG.width / 2, FlxG.height / 2);
+		health = maxHealth;
+		currentPower.inUse = false;
+		currentPower.usable = true;
 	}
 }

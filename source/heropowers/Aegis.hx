@@ -3,11 +3,13 @@ package heropowers;
 import player.Player;
 
 class Aegis extends HeroPower {
-	public function new(X:Float = 0, Y:Float = 0) {
-		super(X, Y);
-		activeColor = 0xFFFFF000;
+	public function new(X:Float = 0, Y:Float = 0, player:Player) {
+		super(X, Y, player);
+		color = 0xFFFFF000;
 		inUse = true;
 		usable = false;
+		player.maxHealth = 4;
+		player.health = 4;
 	}
 
 	override public function toString() {
@@ -17,7 +19,7 @@ class Aegis extends HeroPower {
 	override public function update(elapsed:Float) {
 		setAlpha();
 		usable = false;
-		if (Player.currentHealth == Player.maxHealth) {
+		if (owner.health == owner.maxHealth) {
 			inUse = true;
 		} else {
 			inUse = false;
