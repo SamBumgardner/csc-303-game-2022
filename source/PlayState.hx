@@ -11,6 +11,7 @@ import player.Player;
 class PlayState extends FlxState
 {
 	var player:Player;
+	var hud:Hud;
 
 	var obstacleGenerator:ObstacleGenerator<Obstacle>;
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
@@ -24,6 +25,9 @@ class PlayState extends FlxState
 
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
 		add(player);
+
+		hud = new Hud(32, 32);
+		add(hud);
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
