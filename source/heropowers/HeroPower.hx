@@ -1,7 +1,6 @@
 package heropowers;
 
 import flixel.input.keyboard.FlxKey;
-import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import player.Player;
 
@@ -16,7 +15,7 @@ class HeroPower extends FlxSprite {
 		owner = player;
 
 		loadGraphicFromSprite(owner);
-		setGraphicSize(Std.int(width * 1.1), Std.int(height * 1.1));
+		setGraphicSize(Std.int(width * 1.5), Std.int(height * 1.5));
 		alpha = .5;
 		hotkey = [FlxKey.K];
 		usable = true;
@@ -42,9 +41,8 @@ class HeroPower extends FlxSprite {
 			owner.health = owner.maxHealth;
 			usable = true;
 		}
-		x = owner.x - 2;
-		y = owner.y - 2;
-		trace(x, y, owner.x, owner.y);
+		x = owner.x - (width - owner.width) / 2;
+		y = owner.y - (height - owner.height) / 2;
 		super.update(elapsed);
 	}
 }

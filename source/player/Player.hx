@@ -1,5 +1,6 @@
 package player;
 
+import flixel.util.FlxColor;
 import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -10,11 +11,11 @@ class Player extends FlxSprite {
 
 	public var currentPower:HeroPower;
 
-	public var maxHealth:Int;
+	public var maxHealth:Int = 3;
 
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
-
+		makeGraphic(16, 16, FlxColor.WHITE);
 		health = maxHealth;
 		acceleration.y = 300;
 	}
@@ -47,7 +48,6 @@ class Player extends FlxSprite {
 	}
 
 	override function hurt(damage:Float) {
-		trace(currentPower);
 		super.hurt(currentPower.adjustDamage(damage));
 	}
 

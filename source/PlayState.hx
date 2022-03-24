@@ -29,9 +29,9 @@ class PlayState extends FlxState {
 		super.create();
 
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
-		add(player);
 		setUpHeroPower(heroPowerSelection, player);
 		add(heroPower);
+		add(player);
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
