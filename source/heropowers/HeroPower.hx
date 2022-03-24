@@ -44,5 +44,7 @@ class HeroPower extends FlxSprite {
 		}
 		x = owner.x - 2;
 		y = owner.y - 2;
+		trace(x, y, owner.x, owner.y);
+		super.update(elapsed);
 	}
 }

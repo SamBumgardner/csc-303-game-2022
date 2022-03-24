@@ -24,5 +24,6 @@ class Aegis extends HeroPower {
 		} else {
 			inUse = false;
 		}
+		super.update(elapsed);
 	}
 }

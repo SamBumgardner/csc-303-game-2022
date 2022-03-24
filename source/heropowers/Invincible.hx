@@ -20,8 +20,12 @@ class Invincible extends HeroPower {
 		return "Invincible";
 	}
 
-	override public function adjustDamage(damage:Float) {
-		return damage - damage;
+	override public function adjustDamage(damage:Float):Float {
+		if (inUse) {
+			return 0.0;
+		} else {
+			return damage;
+		}
 	}
 
 	override public function update(elapsed:Float) {
@@ -37,5 +41,6 @@ class Invincible extends HeroPower {
 				usable = true;
 			}
 		}
+		super.update(elapsed);
 	}
 }

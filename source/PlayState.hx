@@ -43,6 +43,7 @@ class PlayState extends FlxState {
 		} else if (heroPowerSelection == "Aegis") {
 			heroPower = new Aegis(player.x, player.y, player);
 		}
+		player.setPower(heroPower);
 	}
 
 	private function switchToHeroPowerSelection() {

@@ -1,6 +1,5 @@
 package player;
 
-import js.html.HeadElement;
 import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -48,6 +47,7 @@ class Player extends FlxSprite {
 	}
 
 	override function hurt(damage:Float) {
+		trace(currentPower);
 		super.hurt(currentPower.adjustDamage(damage));
 	}
 
