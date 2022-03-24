@@ -1,5 +1,6 @@
 package;
 
+import heropowers.HeroPowerSelectionState;
 import heropowers.Aegis;
 import heropowers.Invincible;
 import heropowers.HeroPower;
@@ -11,51 +12,52 @@ import obstacle.Obstacle;
 import obstacle.ObstacleGenerator;
 import player.Player;
 
-class PlayState extends FlxState
-{
+class PlayState extends FlxState {
 	var player:Player;
+
 	var heroPower:HeroPower;
-	public static var heroPowerSelection:String = "Aegis";
+
 	var obstacleGenerator:ObstacleGenerator<Obstacle>;
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = .5;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
 
-	override public function create()
-	{
+	public static var heroPowerSelection:String = "Aegis";
+
+	override public function create() {
 		super.create();
+
 		setUpHeroPower(FlxG.width / 2, FlxG.height / 2, heroPowerSelection);
 		add(heroPower);
 
 		player = new Player(FlxG.width / 2, FlxG.height / 2, heroPower);
 		add(player);
-		
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
 	}
 
-
-	private function setUpHeroPower(x, y, heroPowerSelect:String){
-		if (heroPowerSelection == "Invincible"){
+	private function setUpHeroPower(x, y, heroPowerSelect:String) {
+		if (heroPowerSelection == "Invincible") {
 			heroPower = new Invincible(x, y);
-		}else if (heroPowerSelection == "Aegis"){
+		} else if (heroPowerSelection == "Aegis") {
 			heroPower = new Aegis(x, y);
 		}
 	}
-	private function stickyHeroPower(){
-		heroPower.x = player.x-2;
-		heroPower.y = player.y-2;
+
+	private function stickyHeroPower() {
+		heroPower.x = player.x - 2;
+		heroPower.y = player.y - 2;
 	}
-	private function switchToHeroPowerSelection(){
+
+	private function switchToHeroPowerSelection() {
 		FlxG.switchState(new HeroPowerSelectionState());
 	}
-	private function setUpObstacles()
-	{
+
+	private function setUpObstacles() {
 		var generatedObstacles = new FlxTypedGroup<Obstacle>();
-		for (i in 0...10)
-		{
+		for (i in 0...10) {
 			var obstacle = new Obstacle();
 			obstacle.kill();
 			generatedObstacles.add(obstacle);
@@ -64,36 +66,30 @@ class PlayState extends FlxState
 		var baseObstacleParameters = new ObstacleParameters(FlxG.width, FlxG.height, 200, 10, 50);
 		var obstacleVariation = new ObstacleVariation(-1, .9, 1, 2);
 
-		obstacleGenerator = new ObstacleGenerator<Obstacle>(SECONDS_PER_OBSTACLE,
-			baseObstacleParameters, obstacleVariation, generatedObstacles);
+		obstacleGenerator = new ObstacleGenerator<Obstacle>(SECONDS_PER_OBSTACLE, baseObstacleParameters, obstacleVariation, generatedObstacles);
 		add(obstacleGenerator.obstacles);
 	}
 
-	private function setUpDeadlyObstacles()
-	{
+	private function setUpDeadlyObstacles() {
 		var generatedDeadlyObstacles = new FlxTypedGroup<DeadlyObstacle>();
-		for (i in 0...10)
-		{
+		for (i in 0...10) {
 			var obstacle = new DeadlyObstacle();
 			obstacle.kill();
 			generatedDeadlyObstacles.add(obstacle);
 		}
-		var baseDeadlyObstacleParameters = new ObstacleParameters(FlxG.width, FlxG.height, 50, 50,
-			50);
+		var baseDeadlyObstacleParameters = new ObstacleParameters(FlxG.width, FlxG.height, 50, 50, 50);
 		var deadlyObstacleVariation = new ObstacleVariation(-1, 1, 1, 1);
 
-		deadlyObstacleGenerator = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_DEADLY_OBSTACLE,
-			baseDeadlyObstacleParameters, deadlyObstacleVariation,
+		deadlyObstacleGenerator = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_DEADLY_OBSTACLE, baseDeadlyObstacleParameters, deadlyObstacleVariation,
 			generatedDeadlyObstacles);
 		add(deadlyObstacleGenerator.obstacles);
 	}
 
-	override public function update(elapsed:Float)
-	{
+	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
 		stickyHeroPower();
-		if (FlxG.keys.justPressed.P){
+		if (FlxG.keys.justPressed.P) {
 			switchToHeroPowerSelection();
 		}
 
