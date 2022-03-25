@@ -1,5 +1,6 @@
 package;
 
+import player.Player;
 import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -9,6 +10,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 
 class Hud extends FlxTypedGroup<FlxSprite> {
 
+    var player:Player;
     var background:FlxSprite;
     var livesSprite:FlxSprite;
     var livesCounter:FlxText;
@@ -16,12 +18,15 @@ class Hud extends FlxTypedGroup<FlxSprite> {
     var scoreCounter:FlxText;
     var abilitySprite:FlxSprite;
     var abilityBar:FlxSprite;
-    var lives:Int;
     var score:Int;
 
-    public function new(?textSize:Int=16, ?spriteSize:Int=32)
+    public function new(player_:Player, ?textSize:Int=16, ?spriteSize:Int=32)
     {
         super();
+
+        player = player_;
+        score = 0;
+
         //Transparent black
         background = new FlxSprite().makeGraphic(FlxG.width, Std.int(FlxG.height / 10), 0x55000000);
 
@@ -30,20 +35,18 @@ class Hud extends FlxTypedGroup<FlxSprite> {
         var textHeight:Float = 0;
         var textOffset:Float = spriteSize / 2;
 
-        livesSprite = new FlxSprite(0, 0, AssetPaths.lives__png);
-        livesSprite.setGraphicSize(spriteSize, spriteSize);
-        livesSprite.updateHitbox();
-        livesSprite.setPosition(FlxG.width / 100, spriteHeight);
-        livesCounter = new FlxText(livesSprite.x + livesSprite.width + textOffset, textHeight, 0, "3", textSize);
+        livesSprite = makeSprite(livesSprite, AssetPaths.lives__png, FlxG.width / 100, spriteHeight, spriteSize);
+        livesCounter = new FlxText(livesSprite.x + livesSprite.width + textOffset, textHeight, 0, "" + player.health, textSize);
+        livesCounter.scrollFactor.set(0, 0);
 
-        scoreSprite = new FlxSprite(0, 0, AssetPaths.score__png);
-        scoreSprite.setGraphicSize(spriteSize, spriteSize);
-        scoreSprite.updateHitbox();
-        scoreSprite.setPosition(FlxG.width - FlxG.width / 10 - spriteSize, spriteHeight);
-        scoreCounter = new FlxText(scoreSprite.x + scoreSprite.width + textOffset, textHeight, 0, "3", textSize);
+        scoreSprite = makeSprite(scoreSprite, AssetPaths.score__png, FlxG.width - spriteSize - (4 * textSize) - textOffset, spriteHeight, spriteSize);
+        scoreCounter = new FlxText(scoreSprite.x + scoreSprite.width + textOffset, textHeight, 0, "" + score, textSize);
+        scoreCounter.scrollFactor.set(0, 0);
 
         abilitySprite = new FlxSprite(livesCounter.x + livesCounter.width + textOffset * 2, spriteHeight).makeGraphic(spriteSize, spriteSize, 0xffffffff);
         abilityBar = new FlxSprite(abilitySprite.x + abilitySprite.width + textOffset, spriteHeight).makeGraphic(Std.int(FlxG.width / 5), spriteSize, 0xffffffff);
+        abilitySprite.scrollFactor.set(0, 0);
+        abilityBar.scrollFactor.set(0, 0);
 
         add(background);
         add(livesSprite);
@@ -54,6 +57,16 @@ class Hud extends FlxTypedGroup<FlxSprite> {
         add(abilityBar);
     }
 
+    private function makeSprite(sprite:FlxSprite, assetPath:String, spriteX:Float, spriteHeight:Float, spriteSize:Int)
+    {
+        sprite = new FlxSprite(0, 0, assetPath);
+        sprite.setGraphicSize(spriteSize, spriteSize);
+        sprite.updateHitbox();
+        sprite.setPosition(spriteX, spriteHeight);
+        sprite.scrollFactor.set(0, 0);
+        return sprite;
+    }
+
     public function addScore(score:Int)
     {
         this.score += score;
@@ -62,12 +75,12 @@ class Hud extends FlxTypedGroup<FlxSprite> {
 
     public function incrementLives()
     {
-        livesCounter.text = "" + (++lives);
+        livesCounter.text = "" + (++player.health);
     }
 
     public function decrementLives()
     {
-        livesCounter.text = "" + (--lives);
+        livesCounter.text = "" + (--player.health);
     }
 
     public function startAbility()

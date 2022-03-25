@@ -26,11 +26,12 @@ class PlayState extends FlxState
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
 		add(player);
 
-		hud = new Hud(32, 32);
-		add(hud);
+		hud = new Hud(player, 32, 32);
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
+
+		add(hud);
 	}
 
 	private function setUpObstacles()
