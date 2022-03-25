@@ -4,6 +4,7 @@ import heropowers.HeroPowerSelectionState;
 import heropowers.Aegis;
 import heropowers.Invincible;
 import heropowers.HeroPower;
+import heropowers.PowerListEnum;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
@@ -23,7 +24,7 @@ class PlayState extends FlxState {
 	var SECONDS_PER_OBSTACLE(default, never):Float = .5;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
 
-	public static var heroPowerSelection:String = "Aegis";
+	public static var heroPowerSelection:HeroPowerEnum = Aegis;
 
 	override public function create() {
 		super.create();
@@ -37,10 +38,10 @@ class PlayState extends FlxState {
 		setUpDeadlyObstacles();
 	}
 
-	private function setUpHeroPower(heroPowerSelect:String, player:Player) {
-		if (heroPowerSelection == "Invincible") {
+	private function setUpHeroPower(heroPowerSelect:HeroPowerEnum, player:Player) {
+		if (heroPowerSelection == Invincible) {
 			heroPower = new Invincible(player.x, player.y, player);
-		} else if (heroPowerSelection == "Aegis") {
+		} else if (heroPowerSelection == Aegis) {
 			heroPower = new Aegis(player.x, player.y, player);
 		}
 		player.setPower(heroPower);

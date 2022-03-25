@@ -15,12 +15,12 @@ class HeroPowerSelectionState extends FlxState {
 	}
 
 	function setHeroPowerInvincible():Void {
-		PlayState.heroPowerSelection = "Invincible";
+		PlayState.heroPowerSelection = Invincible;
 		FlxG.switchState(new PlayState());
 	}
 
 	function setHeroPowerAegis():Void {
-		PlayState.heroPowerSelection = "Aegis";
+		PlayState.heroPowerSelection = Aegis;
 		FlxG.switchState(new PlayState());
 	}
 }
