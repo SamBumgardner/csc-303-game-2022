@@ -19,8 +19,7 @@ class Obstacle extends FlxSprite {
 
 		velocity.x = -parameters.speed;
 
-		makeGraphic(parameters.width, parameters.height);
-		setGraphicSize(parameters.width, parameters.height);
+		//	setGraphicSize(parameters.width, parameters.height);
 		loadGraphic(AssetPaths.barbedWireGraphic__jpg, false, parameters.width, parameters.height, false, "Obsticle");
 	}
 

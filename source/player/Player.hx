@@ -12,7 +12,7 @@ class Player extends FlxSprite {
 
 		acceleration.y = 300;
 
-		this.loadGraphic(AssetPaths.playerGraphic__jpg, false, 40, 20, false, "Player");
+		this.loadGraphic(AssetPaths.playerGraphic__jpg, false, 40, 40, false, "Player");
 	}
 
 	override public function update(elapsed:Float) {
