@@ -83,8 +83,8 @@ class PlayState extends FlxState
 				generatedTokens.add(token);
 			}
 	
-			var baseTokenParameters = new TokenParameters(FlxG.width, FlxG.height, 200, 10, 50);
-			var tokenVariation = new TokenVariation(-1, 1, 1, 1);
+			var baseTokenParameters = new TokenParameters(FlxG.width, FlxG.height, 100, 20, 20);
+			var tokenVariation = new TokenVariation(-1, 1, 0, 0);
 	
 			tokenGenerator = new TokenGenerator<Token>(SECONDS_PER_TOKEN,
 			baseTokenParameters, tokenVariation, generatedTokens);
