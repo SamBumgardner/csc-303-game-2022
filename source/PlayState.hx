@@ -1,10 +1,5 @@
 package;
 
-import heropowers.HeroPowerSelectionState;
-import heropowers.Aegis;
-import heropowers.Invincible;
-import heropowers.HeroPower;
-import heropowers.PowerListEnum;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
@@ -16,39 +11,20 @@ import player.Player;
 class PlayState extends FlxState {
 	var player:Player;
 
-	var heroPower:HeroPower;
-
 	var obstacleGenerator:ObstacleGenerator<Obstacle>;
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = .5;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
 
-	public static var heroPowerSelection:HeroPowerEnum = Aegis;
-
 	override public function create() {
 		super.create();
 
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
-		setUpHeroPower(heroPowerSelection, player);
-		add(heroPower);
 		add(player);
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
-	}
-
-	private function setUpHeroPower(heroPowerSelect:HeroPowerEnum, player:Player) {
-		if (heroPowerSelection == Invincible) {
-			heroPower = new Invincible(player.x, player.y, player);
-		} else if (heroPowerSelection == Aegis) {
-			heroPower = new Aegis(player.x, player.y, player);
-		}
-		player.setPower(heroPower);
-	}
-
-	private function switchToHeroPowerSelection() {
-		FlxG.switchState(new HeroPowerSelectionState());
 	}
 
 	private function setUpObstacles() {
@@ -83,10 +59,6 @@ class PlayState extends FlxState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-
-		if (FlxG.keys.justPressed.P) {
-			switchToHeroPowerSelection();
-		}
 
 		FlxG.collide(player, obstacleGenerator.obstacles);
 		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);

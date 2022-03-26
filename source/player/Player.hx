@@ -11,7 +11,7 @@ class Player extends FlxSprite {
 
 	public var currentPower:HeroPower;
 
-	public var maxHealth:Int = 3;
+	public var maxHealth:Int = 3; // Number of player lives or health
 
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
@@ -54,7 +54,12 @@ class Player extends FlxSprite {
 	override function kill() {
 		reset(FlxG.width / 2, FlxG.height / 2);
 		health = maxHealth;
-		currentPower.inUse = false;
-		currentPower.usable = true;
+		// currentPower.inUse = false;
+		// currentPower.usable = true;
+		health -= 1; // Reduce player health
+		// When the player reaches 0 lives/health; the player is 'dead'
+		if (health == 0) {
+			super.destroy();
+		}
 	}
 }
