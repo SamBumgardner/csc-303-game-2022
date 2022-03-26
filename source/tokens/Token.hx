@@ -6,11 +6,12 @@ import flixel.FlxSprite;
 
 class Token extends FlxSprite
 {
-	public function new(x:Float = 0, y:Float = 0)
+	public function new(X:Float, Y:Float, Radius:Float, YELLOW:FlxColor = 0xFFFFFF00)
 	{
 		super(x,y);
 
-		this.makeGraphic(20,20, FlxColor.YELLOW, false);
+		acceleration.x = -200;
+
 	}
 
 	override public function update(elapsed:Float)
@@ -19,7 +20,6 @@ class Token extends FlxSprite
 		{
 			kill();
 		}
-
 		super.update(elapsed);
 	}
 
@@ -27,4 +27,6 @@ class Token extends FlxSprite
 	{
 		return x + width < FlxG.camera.scroll.x;
 	}
+
+
 }

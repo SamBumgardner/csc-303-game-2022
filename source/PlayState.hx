@@ -27,7 +27,7 @@ class PlayState extends FlxState
 
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
 		add(player);
-		token = new Token(10, 50);
+		token = new Token(0, 100, 50);
 		add(token);
 
 		setUpObstacles();
