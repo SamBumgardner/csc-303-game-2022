@@ -53,8 +53,9 @@ class Player extends FlxSprite {
 
 	override function kill() {
 		reset(FlxG.width / 2, FlxG.height / 2);
-		health = maxHealth;
+		// health = maxHealth; //This line resets the players health everytime kill() is called?
 		currentPower.inUse = false;
 		currentPower.usable = true;
+		health--; // Update the players lives or health
 	}
 }
