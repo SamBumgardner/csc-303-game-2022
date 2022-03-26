@@ -14,6 +14,7 @@ class PlayState extends FlxState
 	var player:Player;
 	var token:Token;
 
+
 	var obstacleGenerator:ObstacleGenerator<Obstacle>;
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
 
@@ -51,27 +52,6 @@ class PlayState extends FlxState
 			baseObstacleParameters, obstacleVariation, generatedObstacles);
 		add(obstacleGenerator.obstacles);
 	}
-
-	/*
-	private function setUpTokens()
-		{
-			var generatedTokens = new FlxTypedGroup<Token>();
-			for (i in 0...10)
-			{
-				var token = new Token();
-				token.kill();
-				generatedTokens.add(token);
-			}
-	
-			var baseTokenParameters = new TokenParameters(FlxG.width, FlxG.height, 200, 10, 50);
-			var tokenVariation = new TokenVariation(-1, .9, 1, 2);
-	
-			tokenGenerator = new TokenGenerator<Token>(SECONDS_PER_TOKEN,
-				baseTokenParameters, tokenVariation, generatedTokens);
-			add(tokenGenerator.tokens);
-			
-		}
-		*/
 
 	private function setUpDeadlyObstacles()
 	{

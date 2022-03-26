@@ -28,5 +28,8 @@ class Token extends FlxSprite
 		return x + width < FlxG.camera.scroll.x;
 	}
 
-
+	override function kill()
+	{
+		reset(FlxG.width / 2, FlxG.height / 2);
+	}
 }
