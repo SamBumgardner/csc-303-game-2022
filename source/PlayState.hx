@@ -17,6 +17,7 @@ class PlayState extends FlxState
 	var obstacleGenerator:ObstacleGenerator<Obstacle>;
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
 
+
 	var SECONDS_PER_OBSTACLE(default, never):Float = .5;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
 
