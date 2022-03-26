@@ -53,7 +53,6 @@ class ObstacleVariation {
 	public var height:Float;
 
 	public function new(y:Float = 0, speed:Float = 0, width:Float = 0, height:Float = 0) {
-		// constructor
 		this.y = y;
 		this.speed = speed;
 		this.width = width;
@@ -67,14 +66,8 @@ class ObstacleVariation {
 		var speed = base.speed;
 		var width = Std.int(randomize(base.width, this.width));
 		var height = Std.int(randomize(base.height, this.height));
-		var yRet;
-
-		if (base.y == 0) {
-			yRet = 0.0;
-		} else {
-			yRet = FlxG.height - height;
-		}
-		return new ObstacleParameters(x, yRet, speed, width, height);
+		var y = Std.int(FlxG.random.float(30, FlxG.height));
+		return new ObstacleParameters(x, y, speed, width, height);
 	}
 
 	private inline function randomize(base:Float, variation:Float):Float {

@@ -30,6 +30,8 @@ class Obstacle extends FlxSprite {
 			velocity.y = (FlxG.random.float(parameters.speed / 2, parameters.speed));
 		}
 
+		this.y = parameters.y;
+
 		// used to create as a rectangle
 		makeGraphic(parameters.width, parameters.height);
 	}
@@ -41,11 +43,12 @@ class Obstacle extends FlxSprite {
 			kill();
 		}
 
-		// adds the bounce effect
-		/* if (y < 0 || y > FlxG.height - height) {
-			velocity.y = -velocity.y;
-		}*/
+		yValIfWrapping();
 
+		super.update(elapsed);
+	}
+
+	private function yValIfWrapping() {
 		if (y < 0 - height) {
 			y = FlxG.height;
 		}
@@ -53,17 +56,11 @@ class Obstacle extends FlxSprite {
 		if (y > FlxG.height) {
 			y = 0 - height;
 		}
-
-		super.update(elapsed);
 	}
 
 	private function movedOffScreen() {
 		// check to see if the object has moved off screen
 		return x + width < FlxG.camera.scroll.x;
-	}
-
-	public static function overlapsWithPlayer(player:FlxBasic, obstacle:DeadlyObstacle) {
-		player.kill();
 	}
 }
 

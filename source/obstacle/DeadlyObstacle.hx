@@ -10,7 +10,6 @@ class DeadlyObstacle extends Obstacle {
 		super.init(parameters);
 		color = FlxColor.RED;
 		velocity.y = 0;
-		this.y = FlxG.random.float(this.height, FlxG.height - this.height);
 	}
 
 	public static function overlapsWithPlayer(player:FlxBasic, deadlyObstacle:DeadlyObstacle) {

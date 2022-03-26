@@ -26,7 +26,7 @@ class Player extends FlxSprite {
 		var speedSelector = 2;
 		if (FlxG.keys.pressed.LEFT && x > 20) {
 			velocity.x = -SPEEDS[speedSelector] * 1.4;
-		} else if (FlxG.keys.justReleased.LEFT) {
+		} else if (FlxG.keys.pressed.LEFT) {
 			velocity.x = 0;
 		}
 
@@ -34,7 +34,7 @@ class Player extends FlxSprite {
 			velocity.x = SPEEDS[speedSelector];
 		} else if (FlxG.keys.pressed.RIGHT && x > (FlxG.width - width)) {
 			velocity.x = 0;
-		} else if (FlxG.keys.justReleased.RIGHT) {
+		} else if (FlxG.keys.pressed.RIGHT) {
 			velocity.x = 0;
 		}
 	}

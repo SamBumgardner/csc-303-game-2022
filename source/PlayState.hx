@@ -80,7 +80,7 @@ class PlayState extends FlxState {
 			obstacle.kill();
 			generatedDeadlyObstacles.add(obstacle);
 		}
-		var baseDeadlyObstacleParameters = new ObstacleParameters(FlxG.width, FlxG.height, 500, 30, 15);
+		var baseDeadlyObstacleParameters = new ObstacleParameters(FlxG.width, 300, 500, 30, 15);
 		var deadlyObstacleVariation = new ObstacleVariation(-1, 0, 1, 1);
 
 		deadlyObstacleGenerator = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_DEADLY_OBSTACLE, baseDeadlyObstacleParameters, deadlyObstacleVariation,
@@ -91,9 +91,9 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		FlxG.overlap(player, obstacleGeneratorBot.obstacles, Obstacle.overlapsWithPlayer);
-		FlxG.overlap(player, obstacleGeneratorMid.obstacles, Obstacle.overlapsWithPlayer);
-		FlxG.overlap(player, obstacleGeneratorTop.obstacles, Obstacle.overlapsWithPlayer);
+		FlxG.overlap(player, obstacleGeneratorBot.obstacles, DeadlyObstacle.overlapsWithPlayer);
+		FlxG.overlap(player, obstacleGeneratorMid.obstacles, DeadlyObstacle.overlapsWithPlayer);
+		FlxG.overlap(player, obstacleGeneratorTop.obstacles, DeadlyObstacle.overlapsWithPlayer);
 		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
 	}
 }
