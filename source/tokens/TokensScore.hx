@@ -1,7 +1,7 @@
 package tokens;
 
 import flixel.FlxBasic;
-import tokens.Token;
+import tokens.Token.TokenParameters;
 
 
 class ScoreToken extends Token

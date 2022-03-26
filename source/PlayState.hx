@@ -8,19 +8,20 @@ import obstacle.Obstacle;
 import obstacle.ObstacleGenerator;
 import player.Player;
 import tokens.Token;
+import tokens.TokenGenerator;
 
 class PlayState extends FlxState
 {
 	var player:Player;
-	var token:Token;
-
 
 	var obstacleGenerator:ObstacleGenerator<Obstacle>;
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
-
+	var tokenGenerator:TokenGenerator<Token>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = .5;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
+	var SECONDS_PER_TOKEN(default, never):Float = 4;
+
 
 	override public function create()
 	{
@@ -28,11 +29,10 @@ class PlayState extends FlxState
 
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
 		add(player);
-		token = new Token(0, 100, 50);
-		add(token);
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
+		setUpTokens();
 	}
 
 	private function setUpObstacles()
@@ -72,11 +72,32 @@ class PlayState extends FlxState
 		add(deadlyObstacleGenerator.obstacles);
 	}
 
+	private function setUpTokens()
+		{
+			var generatedTokens = new FlxTypedGroup<Token>();
+			for (i in 0...10)
+			{
+				var token = new Token();
+
+				token.kill();
+				generatedTokens.add(token);
+			}
+	
+			var baseTokenParameters = new TokenParameters(FlxG.width, FlxG.height, 200, 10, 50);
+			var tokenVariation = new TokenVariation(-1, 1, 1, 1);
+	
+			tokenGenerator = new TokenGenerator<Token>(SECONDS_PER_TOKEN,
+			baseTokenParameters, tokenVariation, generatedTokens);
+			add(tokenGenerator.tokens);
+		}
+
+
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
 		FlxG.collide(player, obstacleGenerator.obstacles);
 		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
+		FlxG.overlap(player, tokenGenerator.tokens, Token.overlapsWithPlayer);
 	}
 }
