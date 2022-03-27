@@ -1,5 +1,6 @@
 package;
 
+import heropowers.HeroPower;
 import player.Player;
 import flixel.text.FlxText;
 import flixel.FlxG;
@@ -17,7 +18,7 @@ class Hud extends FlxTypedGroup<FlxSprite> {
     var scoreSprite:FlxSprite;
     var scoreCounter:FlxText;
     var abilitySprite:FlxSprite;
-    var abilityBar:FlxSprite;
+    var abilityText:FlxText;
     var score:Int;
 
     public function new(player_:Player, ?textSize:Int=16, ?spriteSize:Int=32)
@@ -44,9 +45,9 @@ class Hud extends FlxTypedGroup<FlxSprite> {
         scoreCounter.scrollFactor.set(0, 0);
 
         abilitySprite = new FlxSprite(livesCounter.x + livesCounter.width + textOffset * 2, spriteHeight).makeGraphic(spriteSize, spriteSize, 0xffffffff);
-        abilityBar = new FlxSprite(abilitySprite.x + abilitySprite.width + textOffset, spriteHeight).makeGraphic(Std.int(FlxG.width / 5), spriteSize, 0xffffffff);
+        abilityText = new FlxText(abilitySprite.x + spriteSize + textOffset, textHeight, 0, "", textSize);
         abilitySprite.scrollFactor.set(0, 0);
-        abilityBar.scrollFactor.set(0, 0);
+        abilityText.scrollFactor.set(0, 0);
 
         add(background);
         add(livesSprite);
@@ -54,7 +55,7 @@ class Hud extends FlxTypedGroup<FlxSprite> {
         add(scoreCounter);
         add(scoreSprite);
         add(abilitySprite);
-        add(abilityBar);
+        add(abilityText);
     }
 
     override public function update(elapsed:Float)
@@ -83,16 +84,16 @@ class Hud extends FlxTypedGroup<FlxSprite> {
         livesCounter.text = "" + player.health;
     }
 
-    public function startAbility()
+    public function startPower(power:HeroPower)
     {
-        //TODO: Integrate with sam's abilities branch
-        return;
+        abilitySprite.color = power.color;
+        abilityText.text = power.toString();
     }
 
-    public function endAbility()
+    public function endPower()
     {
-        //TODO: Integrate with sam's abilities branch
-        return;
+        abilitySprite.color = 0x00000000;
+        abilityText.text = "";
     }
 
 }

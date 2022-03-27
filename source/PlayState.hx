@@ -31,11 +31,10 @@ class PlayState extends FlxState {
 		super.create();
 
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
+		hud = new Hud(player, 32, 32);
 		setUpHeroPower(heroPowerSelection, player);
 		add(heroPower);
 		add(player);
-
-		hud = new Hud(player, 32, 32);
 
 		setUpObstacles();
 		setUpDeadlyObstacles();
@@ -50,6 +49,7 @@ class PlayState extends FlxState {
 			heroPower = new Aegis(player.x, player.y, player);
 		}
 		player.setPower(heroPower);
+		hud.startPower(heroPower);
 	}
 
 	private function switchToHeroPowerSelection() {
