@@ -15,6 +15,7 @@ import player.Player;
 
 class PlayState extends FlxState {
 	var player:Player;
+	var hud:Hud;
 
 	var obstacleGeneratorTop:ObstacleGenerator<Obstacle>;
 	var obstacleGeneratorMid:ObstacleGenerator<Obstacle>;
@@ -35,6 +36,7 @@ class PlayState extends FlxState {
 		// create player
 		player = new Player(FlxG.width / 4, FlxG.height / 4);
 
+		hud = new Hud(player, 32, 32);
 		setUpHeroPower(heroPowerSelection, player);
 		add(heroPower);
 		add(player);
@@ -43,6 +45,8 @@ class PlayState extends FlxState {
 		setUpObstacles();
 		// set up the obstacles that kill the player
 		setUpDeadlyObstacles();
+
+		add(hud);
 	}
 
 	private function setUpHeroPower(heroPowerSelect:HeroPowerEnum, player:Player) {
@@ -52,6 +56,7 @@ class PlayState extends FlxState {
 			heroPower = new Aegis(player.x, player.y, player);
 		}
 		player.setPower(heroPower);
+		hud.startPower(heroPower);
 	}
 
 	private function switchToHeroPowerSelection() {
