@@ -62,7 +62,7 @@ class Player extends FlxSprite {
 	}
 
 	override function kill() {
-		reset(FlxG.width / 2, FlxG.height / 2);
+		reset(FlxG.width / 4, FlxG.height / 4);
 		health = maxHealth;
 		currentPower.inUse = false;
 		currentPower.usable = true;
