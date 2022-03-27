@@ -1,5 +1,6 @@
 package obstacle;
 
+import flixel.math.FlxRect;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
@@ -19,8 +20,11 @@ class Obstacle extends FlxSprite {
 
 		velocity.x = -parameters.speed;
 
-		//	setGraphicSize(parameters.width, parameters.height);
-		loadGraphic(AssetPaths.barbedWireGraphic__jpg, false, parameters.width, parameters.height, false, "Obsticle");
+		var sizingRect:FlxRect = new FlxRect(parameters.x, parameters.y, parameters.width, parameters.height);
+		loadGraphic(AssetPaths.barbedWireGraphic__jpg);
+		this.width = parameters.width;
+		this.height = parameters.height;
+		this.clipRect = sizingRect;
 	}
 
 	override public function update(elapsed:Float) {
