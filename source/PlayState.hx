@@ -16,7 +16,7 @@ class PlayState extends FlxState
 
 	var obstacleGenerator:ObstacleGenerator<Obstacle>;
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
-	var tokenGenerator:TokenGenerator<Token>;
+	var tokenGenerator:ObstacleGenerator<Token>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = .5;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
@@ -83,12 +83,12 @@ class PlayState extends FlxState
 				generatedTokens.add(token);
 			}
 	
-			var baseTokenParameters = new TokenParameters(FlxG.width, FlxG.height, 100, 20, 20);
-			var tokenVariation = new TokenVariation(-1, 1, 0, 0);
+			var baseTokenParameters = new ObstacleParameters(FlxG.width, FlxG.height, 100, 20, 20);
+			var tokenVariation = new ObstacleVariation(-1, 1, 0, 0);
 	
-			tokenGenerator = new TokenGenerator<Token>(SECONDS_PER_TOKEN,
+			tokenGenerator = new ObstacleGenerator<Token>(SECONDS_PER_TOKEN,
 			baseTokenParameters, tokenVariation, generatedTokens);
-			add(tokenGenerator.tokens);
+			add(tokenGenerator.obstacles);
 		}
 
 
@@ -98,6 +98,6 @@ class PlayState extends FlxState
 
 		FlxG.collide(player, obstacleGenerator.obstacles);
 		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
-		FlxG.overlap(player, tokenGenerator.tokens, Token.overlapsWithPlayer);
+		FlxG.overlap(player, tokenGenerator.obstacles, Token.overlapsWithPlayer);
 	}
 }
