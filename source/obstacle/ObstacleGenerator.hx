@@ -18,7 +18,6 @@ class ObstacleGenerator<T:Obstacle> extends FlxBasic {
 	public function new(spawnDelay:Float, baseObstacleParameters:ObstacleParameters, variation:ObstacleVariation, obstacles:FlxTypedGroup<T>) {
 		// call parent constructor
 		super();
-
 		// set to the obstacle objects
 		this.obstacles = obstacles;
 		// the base parameters used to create the obstacles
@@ -52,8 +51,7 @@ class ObstacleVariation {
 	public var width:Float;
 	public var height:Float;
 
-	public function new(y:Float = 0, speed:Float = 0, width:Float = 0, height:Float = 0) {
-		this.y = y;
+	public function new(speed:Float = 0, width:Float = 0, height:Float = 0) {
 		this.speed = speed;
 		this.width = width;
 		this.height = height;

@@ -1,5 +1,6 @@
 package;
 
+import obstacle.HorizontalObstacle;
 import heropowers.HeroPowerSelectionState;
 import heropowers.Aegis;
 import heropowers.Invincible;
@@ -17,12 +18,12 @@ class PlayState extends FlxState {
 	var player:Player;
 	var hud:Hud;
 
-	var obstacleGeneratorTop:ObstacleGenerator<Obstacle>;
-	var obstacleGeneratorMid:ObstacleGenerator<Obstacle>;
-	var obstacleGeneratorBot:ObstacleGenerator<Obstacle>;
+	var obstacleGeneratorTop:ObstacleGenerator<DeadlyObstacle>;
+	var obstacleGeneratorMid:ObstacleGenerator<DeadlyObstacle>;
+	var obstacleGeneratorBot:ObstacleGenerator<DeadlyObstacle>;
 	var heroPower:HeroPower;
 
-	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
+	var horizontalObstacleGenerator:ObstacleGenerator<HorizontalObstacle>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = 1.3;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 4;
@@ -44,7 +45,7 @@ class PlayState extends FlxState {
 		// set up the obstacle types
 		setUpObstacles();
 		// set up the obstacles that kill the player
-		setUpDeadlyObstacles();
+		setUpHorizontalObstacles();
 
 		add(hud);
 	}
@@ -65,17 +66,17 @@ class PlayState extends FlxState {
 
 	private function setUpObstacles() {
 		// create new obstacle group
-		var generatedObstaclesTop = new FlxTypedGroup<Obstacle>();
-		var generatedObstaclesMid = new FlxTypedGroup<Obstacle>();
-		var generatedObstaclesBot = new FlxTypedGroup<Obstacle>();
+		var generatedObstaclesTop = new FlxTypedGroup<DeadlyObstacle>();
+		var generatedObstaclesMid = new FlxTypedGroup<DeadlyObstacle>();
+		var generatedObstaclesBot = new FlxTypedGroup<DeadlyObstacle>();
 		final obstacleHeight = 35;
 		final obstacleWidth = 10;
 		final obstacleBaseSpeed = 175;
 		// iterate and create some objects
 		for (i in 0...5) {
-			var obstacleT = new Obstacle();
-			var obstacleM = new Obstacle();
-			var obstacleB = new Obstacle();
+			var obstacleT = new DeadlyObstacle();
+			var obstacleM = new DeadlyObstacle();
+			var obstacleB = new DeadlyObstacle();
 			// make the obstacles not drawn or interacted with
 			obstacleT.kill();
 			obstacleM.kill();
@@ -91,11 +92,14 @@ class PlayState extends FlxState {
 		var baseObstacleParametersMid = new ObstacleParameters(FlxG.width, 200, obstacleBaseSpeed, obstacleWidth, obstacleHeight);
 		var baseObstacleParametersBot = new ObstacleParameters(FlxG.width, 400, obstacleBaseSpeed, obstacleWidth, obstacleHeight);
 		// create a variation object
-		var obstacleVariation = new ObstacleVariation(-1, .9, 1, 2);
+		var obstacleVariation = new ObstacleVariation(.9, 1, 2);
 		// create an obstacle generator
-		obstacleGeneratorTop = new ObstacleGenerator<Obstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersTop, obstacleVariation, generatedObstaclesTop);
-		obstacleGeneratorMid = new ObstacleGenerator<Obstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersMid, obstacleVariation, generatedObstaclesMid);
-		obstacleGeneratorBot = new ObstacleGenerator<Obstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersBot, obstacleVariation, generatedObstaclesBot);
+		obstacleGeneratorTop = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersTop, obstacleVariation,
+			generatedObstaclesTop);
+		obstacleGeneratorMid = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersMid, obstacleVariation,
+			generatedObstaclesMid);
+		obstacleGeneratorBot = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersBot, obstacleVariation,
+			generatedObstaclesBot);
 		// add the obstacles to the play state
 
 		add(obstacleGeneratorTop.obstacles);
@@ -103,19 +107,19 @@ class PlayState extends FlxState {
 		add(obstacleGeneratorBot.obstacles);
 	}
 
-	private function setUpDeadlyObstacles() {
-		var generatedDeadlyObstacles = new FlxTypedGroup<DeadlyObstacle>();
+	private function setUpHorizontalObstacles() {
+		var generatedHorizontalObstacles = new FlxTypedGroup<HorizontalObstacle>();
 		for (i in 0...5) {
-			var obstacle = new DeadlyObstacle();
+			var obstacle = new HorizontalObstacle();
 			obstacle.kill();
-			generatedDeadlyObstacles.add(obstacle);
+			generatedHorizontalObstacles.add(obstacle);
 		}
-		var baseDeadlyObstacleParameters = new ObstacleParameters(FlxG.width, 300, 500, 30, 15);
-		var deadlyObstacleVariation = new ObstacleVariation(-1, 0, 1, 1);
+		var baseHorizontalObstacleParameters = new ObstacleParameters(FlxG.width, 300, 500, 30, 15);
+		var horizontalObstacleVariation = new ObstacleVariation(0, 1, 1);
 
-		deadlyObstacleGenerator = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_DEADLY_OBSTACLE, baseDeadlyObstacleParameters, deadlyObstacleVariation,
-			generatedDeadlyObstacles);
-		add(deadlyObstacleGenerator.obstacles);
+		horizontalObstacleGenerator = new ObstacleGenerator<HorizontalObstacle>(SECONDS_PER_DEADLY_OBSTACLE, baseHorizontalObstacleParameters,
+			horizontalObstacleVariation, generatedHorizontalObstacles);
+		add(horizontalObstacleGenerator.obstacles);
 	}
 
 	override public function update(elapsed:Float) {
@@ -129,6 +133,6 @@ class PlayState extends FlxState {
 			switchToHeroPowerSelection();
 		}
 
-		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
+		FlxG.overlap(player, horizontalObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
 	}
 }

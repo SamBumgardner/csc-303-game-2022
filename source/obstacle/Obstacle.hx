@@ -1,6 +1,5 @@
 package obstacle;
 
-import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
