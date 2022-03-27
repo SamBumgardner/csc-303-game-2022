@@ -1,14 +1,22 @@
 package player;
 
+import flixel.util.FlxColor;
+import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 
 class Player extends FlxSprite {
 	public static var SPEEDS(default, never):Array<Int> = [0, 50, 100, 150, 200];
 
+	public var currentPower:HeroPower;
+
+	public var maxHealth:Int = 3;
+
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
-
+		makeGraphic(16, 16, 0xBBBBBBBB);
+		health = maxHealth;
 		acceleration.y = 330;
 	}
 
@@ -45,8 +53,18 @@ class Player extends FlxSprite {
 		}
 	}
 
-	// could be changed when the life system is implemented
+	public function setPower(power:HeroPower) {
+		currentPower = power;
+	}
+
+	override function hurt(damage:Float) {
+		super.hurt(currentPower.adjustDamage(damage));
+	}
+
 	override function kill() {
-		reset(FlxG.width / 4, FlxG.height / 4);
+		reset(FlxG.width / 2, FlxG.height / 2);
+		health = maxHealth;
+		currentPower.inUse = false;
+		currentPower.usable = true;
 	}
 }

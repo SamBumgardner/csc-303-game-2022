@@ -1,5 +1,10 @@
 package;
 
+import heropowers.HeroPowerSelectionState;
+import heropowers.Aegis;
+import heropowers.Invincible;
+import heropowers.HeroPower;
+import heropowers.PowerListEnum;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
@@ -14,10 +19,14 @@ class PlayState extends FlxState {
 	var obstacleGeneratorTop:ObstacleGenerator<Obstacle>;
 	var obstacleGeneratorMid:ObstacleGenerator<Obstacle>;
 	var obstacleGeneratorBot:ObstacleGenerator<Obstacle>;
+	var heroPower:HeroPower;
+
 	var deadlyObstacleGenerator:ObstacleGenerator<DeadlyObstacle>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = 1.3;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 4;
+
+	public static var heroPowerSelection:HeroPowerEnum = Aegis;
 
 	override public function create() {
 		// call super
@@ -25,12 +34,28 @@ class PlayState extends FlxState {
 
 		// create player
 		player = new Player(FlxG.width / 4, FlxG.height / 4);
+
+		setUpHeroPower(heroPowerSelection, player);
+		add(heroPower);
 		add(player);
 
 		// set up the obstacle types
 		setUpObstacles();
 		// set up the obstacles that kill the player
 		setUpDeadlyObstacles();
+	}
+
+	private function setUpHeroPower(heroPowerSelect:HeroPowerEnum, player:Player) {
+		if (heroPowerSelection == Invincible) {
+			heroPower = new Invincible(player.x, player.y, player);
+		} else if (heroPowerSelection == Aegis) {
+			heroPower = new Aegis(player.x, player.y, player);
+		}
+		player.setPower(heroPower);
+	}
+
+	private function switchToHeroPowerSelection() {
+		FlxG.switchState(new HeroPowerSelectionState());
 	}
 
 	private function setUpObstacles() {
@@ -94,6 +119,11 @@ class PlayState extends FlxState {
 		FlxG.overlap(player, obstacleGeneratorBot.obstacles, DeadlyObstacle.overlapsWithPlayer);
 		FlxG.overlap(player, obstacleGeneratorMid.obstacles, DeadlyObstacle.overlapsWithPlayer);
 		FlxG.overlap(player, obstacleGeneratorTop.obstacles, DeadlyObstacle.overlapsWithPlayer);
+
+		if (FlxG.keys.justPressed.P) {
+			switchToHeroPowerSelection();
+		}
+
 		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
 	}
 }

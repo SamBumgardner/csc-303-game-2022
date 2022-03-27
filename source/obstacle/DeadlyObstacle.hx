@@ -2,6 +2,7 @@ package obstacle;
 
 import flixel.FlxG;
 import flixel.FlxBasic;
+import flixel.FlxObject;
 import flixel.util.FlxColor;
 import obstacle.Obstacle.ObstacleParameters;
 
@@ -12,8 +13,8 @@ class DeadlyObstacle extends Obstacle {
 		velocity.y = 0;
 	}
 
-	public static function overlapsWithPlayer(player:FlxBasic, deadlyObstacle:DeadlyObstacle) {
-		player.kill();
+	public static function overlapsWithPlayer(player:FlxObject, deadlyObstacle:DeadlyObstacle) {
+		player.hurt(1);
 		deadlyObstacle.kill();
 	}
 }
