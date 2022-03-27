@@ -57,6 +57,11 @@ class Hud extends FlxTypedGroup<FlxSprite> {
         add(abilityBar);
     }
 
+    override public function update(elapsed:Float)
+    {
+        setLivesText();
+    }
+
     private function makeSprite(sprite:FlxSprite, assetPath:String, spriteX:Float, spriteHeight:Float, spriteSize:Int)
     {
         sprite = new FlxSprite(0, 0, assetPath);
@@ -73,14 +78,9 @@ class Hud extends FlxTypedGroup<FlxSprite> {
         scoreCounter.text = "" + this.score;
     }
 
-    public function incrementLives()
+    public function setLivesText()
     {
-        livesCounter.text = "" + (++player.health);
-    }
-
-    public function decrementLives()
-    {
-        livesCounter.text = "" + (--player.health);
+        livesCounter.text = "" + player.health;
     }
 
     public function startAbility()
