@@ -1,0 +1,8 @@
+The main feature I plan to add to our gameare random flying 'objects' such as our character.
+I plan on making the branch name flying-obstacles.
+I expect to update player if I need to implement a death scenario. Otherwise, I don't expect to update much more than PlayState.hx
+I expect to create the class: FlyingObstacles.
+It should inherit FlxSprite.
+
+This new feature will basically be a different obstacle that the player will have to avoid. I have yet to decide if it will 'flap its wings'
+like the player, or if it will fly in some random direction. If collisions occur with the player, the player will die.
