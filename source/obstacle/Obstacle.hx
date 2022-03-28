@@ -20,8 +20,8 @@ class Obstacle extends FlxSprite {
 
 		velocity.x = -parameters.speed;
 
-		var sizingRect:FlxRect = new FlxRect(parameters.x, parameters.y, parameters.width, parameters.height);
-		loadGraphic(AssetPaths.barbedWireGraphic__jpg);
+		var sizingRect:FlxRect = new FlxRect(0, 0, parameters.width, parameters.height);
+		loadGraphic(AssetPaths.brick__jpg);
 		this.width = parameters.width;
 		this.height = parameters.height;
 		this.clipRect = sizingRect;
