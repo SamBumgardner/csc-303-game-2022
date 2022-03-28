@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxColor;
 import heropowers.HeroPowerSelectionState;
 import heropowers.Aegis;
 import heropowers.Invincible;
@@ -26,6 +27,8 @@ class PlayState extends FlxState {
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 2;
 
 	public static var heroPowerSelection:HeroPowerEnum = Aegis;
+
+	var ending:Bool = false; // Game Over condition
 
 	override public function create() {
 		super.create();
@@ -89,11 +92,24 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
+		// End anything else from happening if the game is ready to 'end'
+		if (ending) {
+			return;
+		}
+
 		if (FlxG.keys.justPressed.P) {
 			switchToHeroPowerSelection();
 		}
 
 		FlxG.collide(player, obstacleGenerator.obstacles);
 		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
+
+		// End the game if the player reaches 0 lives or health
+		if (player.health <= 0) {
+			ending = true;
+			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function gameOver() {
+				FlxG.switchState(new GameOverState());
+			});
+		}
 	}
 }

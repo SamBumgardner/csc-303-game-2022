@@ -1,10 +1,8 @@
 package player;
 
-import flixel.util.FlxColor;
 import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxObject;
 
 class Player extends FlxSprite {
 	public static var SPEEDS(default, never):Array<Int> = [0, 50, 100];
@@ -25,8 +23,10 @@ class Player extends FlxSprite {
 		jump();
 
 		if (!isOnScreen()) {
-			kill();
+			hurt(1);
+			reset(FlxG.width / 2, FlxG.height / 2);
 		}
+
 		super.update(elapsed);
 	}
 
@@ -49,12 +49,5 @@ class Player extends FlxSprite {
 
 	override function hurt(damage:Float) {
 		super.hurt(currentPower.adjustDamage(damage));
-	}
-
-	override function kill() {
-		reset(FlxG.width / 2, FlxG.height / 2);
-		health = maxHealth;
-		currentPower.inUse = false;
-		currentPower.usable = true;
 	}
 }
