@@ -20,14 +20,8 @@ class Obstacle extends FlxSprite {
 		super.reset(parameters.x, parameters.y);
 
 		// set the velocity to whatever the speed is but neg
-		var upOrDown = FlxG.random.int(0, 1);
+		
 		velocity.x = -parameters.speed;
-
-		if (upOrDown == 1) {
-			velocity.y = -(FlxG.random.float(parameters.speed / 2, parameters.speed));
-		} else {
-			velocity.y = (FlxG.random.float(parameters.speed / 2, parameters.speed));
-		}
 
 		this.y = parameters.y;
 

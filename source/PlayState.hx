@@ -1,6 +1,7 @@
 package;
 
 import obstacle.HorizontalObstacle;
+import obstacle.VerticalObstacle;
 import heropowers.HeroPowerSelectionState;
 import heropowers.Aegis;
 import heropowers.Invincible;
@@ -18,9 +19,9 @@ class PlayState extends FlxState {
 	var player:Player;
 	var hud:Hud;
 
-	var obstacleGeneratorTop:ObstacleGenerator<DeadlyObstacle>;
-	var obstacleGeneratorMid:ObstacleGenerator<DeadlyObstacle>;
-	var obstacleGeneratorBot:ObstacleGenerator<DeadlyObstacle>;
+	var obstacleGeneratorTop:ObstacleGenerator<VerticalObstacle>;
+	var obstacleGeneratorMid:ObstacleGenerator<VerticalObstacle>;
+	var obstacleGeneratorBot:ObstacleGenerator<VerticalObstacle>;
 	var heroPower:HeroPower;
 
 	var horizontalObstacleGenerator:ObstacleGenerator<HorizontalObstacle>;
@@ -66,17 +67,17 @@ class PlayState extends FlxState {
 
 	private function setUpObstacles() {
 		// create new obstacle group
-		var generatedObstaclesTop = new FlxTypedGroup<DeadlyObstacle>();
-		var generatedObstaclesMid = new FlxTypedGroup<DeadlyObstacle>();
-		var generatedObstaclesBot = new FlxTypedGroup<DeadlyObstacle>();
+		var generatedObstaclesTop = new FlxTypedGroup<VerticalObstacle>();
+		var generatedObstaclesMid = new FlxTypedGroup<VerticalObstacle>();
+		var generatedObstaclesBot = new FlxTypedGroup<VerticalObstacle>();
 		final obstacleHeight = 35;
 		final obstacleWidth = 10;
 		final obstacleBaseSpeed = 175;
 		// iterate and create some objects
 		for (i in 0...5) {
-			var obstacleT = new DeadlyObstacle();
-			var obstacleM = new DeadlyObstacle();
-			var obstacleB = new DeadlyObstacle();
+			var obstacleT = new VerticalObstacle();
+			var obstacleM = new VerticalObstacle();
+			var obstacleB = new VerticalObstacle();
 			// make the obstacles not drawn or interacted with
 			obstacleT.kill();
 			obstacleM.kill();
@@ -94,11 +95,11 @@ class PlayState extends FlxState {
 		// create a variation object
 		var obstacleVariation = new ObstacleVariation(.9, 1, 2);
 		// create an obstacle generator
-		obstacleGeneratorTop = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersTop, obstacleVariation,
+		obstacleGeneratorTop = new ObstacleGenerator<VerticalObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersTop, obstacleVariation,
 			generatedObstaclesTop);
-		obstacleGeneratorMid = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersMid, obstacleVariation,
+		obstacleGeneratorMid = new ObstacleGenerator<VerticalObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersMid, obstacleVariation,
 			generatedObstaclesMid);
-		obstacleGeneratorBot = new ObstacleGenerator<DeadlyObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersBot, obstacleVariation,
+		obstacleGeneratorBot = new ObstacleGenerator<VerticalObstacle>(SECONDS_PER_OBSTACLE, baseObstacleParametersBot, obstacleVariation,
 			generatedObstaclesBot);
 		// add the obstacles to the play state
 
