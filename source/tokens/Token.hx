@@ -3,6 +3,7 @@ package tokens;
 import flixel.FlxBasic;
 import flixel.util.FlxColor;
 import obstacle.Obstacle;
+import flixel.FlxG;
 
 class Token extends Obstacle
 {
@@ -24,6 +25,8 @@ class Token extends Obstacle
 	{
 		scoreToken.kill();  //Remove token when collide with player
 		HUD.addScore(1);    //Add 1 to coin score when player collides
+
+
 	}	
 }
 	

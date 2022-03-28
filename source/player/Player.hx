@@ -57,6 +57,6 @@ class Player extends FlxSprite {
 		health = maxHealth;
 		currentPower.inUse = false;
 		currentPower.usable = true;
-		HUD.removeScore();
+		cast(FlxG.state, PlayState).resetScore(); 
 	}
 }

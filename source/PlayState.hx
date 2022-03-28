@@ -92,24 +92,28 @@ class PlayState extends FlxState {
 	}
 
 	private function setUpTokens()
+	{
+		var generatedTokens = new FlxTypedGroup<Token>();
+		for (i in 0...10)
 		{
-			var generatedTokens = new FlxTypedGroup<Token>();
-			for (i in 0...10)
-			{
-				var token = new Token(hud);
+			var token = new Token(hud);
 
-				token.kill();
-				generatedTokens.add(token);
-			}
-	
-			var baseTokenParameters = new ObstacleParameters(FlxG.width, FlxG.height, 100, 20, 20);
-			var tokenVariation = new ObstacleVariation(-1, 1, 0, 0);
-	
-			tokenGenerator = new ObstacleGenerator<Token>(SECONDS_PER_TOKEN,
-			baseTokenParameters, tokenVariation, generatedTokens);
-			add(tokenGenerator.obstacles);
+			token.kill();
+			generatedTokens.add(token);
 		}
 
+		var baseTokenParameters = new ObstacleParameters(FlxG.width, FlxG.height, 100, 20, 20);
+		var tokenVariation = new ObstacleVariation(-1, 1, 0, 0);
+
+		tokenGenerator = new ObstacleGenerator<Token>(SECONDS_PER_TOKEN,
+		baseTokenParameters, tokenVariation, generatedTokens);
+		add(tokenGenerator.obstacles);
+	}
+	
+	public function resetScore()
+	{
+		hud.removeScore();
+	}
 
 	override public function update(elapsed:Float)
 	{
