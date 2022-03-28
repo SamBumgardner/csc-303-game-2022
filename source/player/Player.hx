@@ -6,7 +6,6 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 
-
 class Player extends FlxSprite {
 	public static var SPEEDS(default, never):Array<Int> = [0, 50, 100];
 
@@ -16,11 +15,9 @@ class Player extends FlxSprite {
 
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
-		makeGraphic(16, 16, 0xBBBBBBBB);
+		this.loadGraphic(AssetPaths.playerGraphic__png, false, 40, 40, false, "Player");
 		health = maxHealth;
 		acceleration.y = 300;
-
-		this.loadGraphic(AssetPaths.playerGraphic3__jpg, false, 40, 40, false, "Player");
 	}
 
 	override public function update(elapsed:Float) {
