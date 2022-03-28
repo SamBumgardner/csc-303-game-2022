@@ -6,6 +6,14 @@ import obstacle.Obstacle;
 
 class Token extends Obstacle
 {
+
+	private static var HUD:Hud;
+
+	public function new(?parameters:ObstacleParameters, hud:Hud) {
+		super(parameters);
+		HUD = hud;
+	}
+
 	override function init(parameters:ObstacleParameters)
 	{
 		super.init(parameters);
@@ -16,7 +24,7 @@ class Token extends Obstacle
 	{
 		scoreToken.kill();  //Remove token when collide with player
 		//var hud:Hud;
-		//hud.addScore(1);    //Add 1 to coin score when player collides
+		HUD.addScore(1);    //Add 1 to coin score when player collides
 	}	
 }
 	

@@ -96,7 +96,7 @@ class PlayState extends FlxState {
 			var generatedTokens = new FlxTypedGroup<Token>();
 			for (i in 0...10)
 			{
-				var token = new Token();
+				var token = new Token(hud);
 
 				token.kill();
 				generatedTokens.add(token);
