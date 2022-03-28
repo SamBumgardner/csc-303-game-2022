@@ -1,5 +1,7 @@
 package obstacle;
 
+
+import flixel.FlxObject;
 import flixel.math.FlxRect;
 import flixel.FlxBasic;
 import flixel.util.FlxColor;
@@ -16,8 +18,8 @@ class DeadlyObstacle extends Obstacle {
 		this.clipRect = sizingRect;
 	}
 
-	public static function overlapsWithPlayer(player:FlxBasic, deadlyObstacle:DeadlyObstacle) {
-		player.kill();
+	public static function overlapsWithPlayer(player:FlxObject, deadlyObstacle:DeadlyObstacle) {
+		player.hurt(1);
 		deadlyObstacle.kill();
 	}
 }

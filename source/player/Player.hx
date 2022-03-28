@@ -1,15 +1,23 @@
 package player;
 
+import flixel.util.FlxColor;
+import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 
-// Add Player Visual, one size
+
 class Player extends FlxSprite {
 	public static var SPEEDS(default, never):Array<Int> = [0, 50, 100];
 
+	public var currentPower:HeroPower;
+
+	public var maxHealth:Int = 3;
+
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
-
+		makeGraphic(16, 16, 0xBBBBBBBB);
+		health = maxHealth;
 		acceleration.y = 300;
 
 		this.loadGraphic(AssetPaths.playerGraphic3__jpg, false, 40, 40, false, "Player");
@@ -18,13 +26,6 @@ class Player extends FlxSprite {
 	override public function update(elapsed:Float) {
 		setSpeed();
 		jump();
-
-		/*if (velocity.y > 1) {
-				this.loadGraphic(AssetPaths.playerGraphic2__jpg, false, 40, 40, false, "Player Up");
-			}
-			if (velocity.y < 0) {
-				this.loadGraphic(AssetPaths.playerGraphic2__jpg, false, 40, 40, false, "Player Down");
-		}*/
 
 		if (!isOnScreen()) {
 			kill();
@@ -45,7 +46,18 @@ class Player extends FlxSprite {
 		}
 	}
 
+	public function setPower(power:HeroPower) {
+		currentPower = power;
+	}
+
+	override function hurt(damage:Float) {
+		super.hurt(currentPower.adjustDamage(damage));
+	}
+
 	override function kill() {
 		reset(FlxG.width / 2, FlxG.height / 2);
+		health = maxHealth;
+		currentPower.inUse = false;
+		currentPower.usable = true;
 	}
 }
