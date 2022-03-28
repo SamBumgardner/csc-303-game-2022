@@ -5,7 +5,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 
 class Player extends FlxSprite {
-	public static var SPEEDS(default, never):Array<Int> = [0, 50, 100];
+	public static var SPEED(default, never):Int = 100;
 
 	public var currentPower:HeroPower;
 
@@ -15,7 +15,7 @@ class Player extends FlxSprite {
 		super(X, Y);
 		makeGraphic(16, 16, 0xBBBBBBBB);
 		health = maxHealth;
-		acceleration.y = 300;
+		acceleration.y = 330;
 	}
 
 	override public function update(elapsed:Float) {
@@ -31,15 +31,30 @@ class Player extends FlxSprite {
 	}
 
 	private function setSpeed() {
-		var speedSelector = 1;
-		FlxG.keys.pressed.LEFT ? speedSelector-- : null;
-		FlxG.keys.pressed.RIGHT ? speedSelector++ : null;
-		velocity.x = SPEEDS[speedSelector];
+		if (x < 4 || x > FlxG.width - width) {
+			velocity.x = 0;
+		}
+		if (FlxG.keys.pressed.LEFT && x > 4) {
+			velocity.x = -(SPEED * 1.4);
+		}
+
+		if (FlxG.keys.pressed.RIGHT && x < FlxG.width - width) {
+			velocity.x = SPEED;
+		}
+
+		if (FlxG.keys.pressed.RIGHT && FlxG.keys.pressed.LEFT) {
+			// adds the cancel out effect
+			velocity.x = 0;
+		}
+
+		if (FlxG.keys.justReleased.LEFT || FlxG.keys.justReleased.RIGHT) {
+			velocity.x = 0;
+		}
 	}
 
 	private function jump() {
 		if (FlxG.keys.justPressed.UP) {
-			velocity.y = -200;
+			velocity.y = -220;
 		}
 	}
 
@@ -49,5 +64,12 @@ class Player extends FlxSprite {
 
 	override function hurt(damage:Float) {
 		super.hurt(currentPower.adjustDamage(damage));
+	}
+
+	override function kill() {
+		reset(FlxG.width / 4, FlxG.height / 4);
+		health = maxHealth;
+		currentPower.inUse = false;
+		currentPower.usable = true;
 	}
 }
