@@ -51,10 +51,12 @@ class Player extends FlxSprite {
 		super.hurt(currentPower.adjustDamage(damage));
 	}
 
+
 	override function kill() {
 		reset(FlxG.width / 2, FlxG.height / 2);
 		health = maxHealth;
 		currentPower.inUse = false;
 		currentPower.usable = true;
+		HUD.removeScore();
 	}
 }

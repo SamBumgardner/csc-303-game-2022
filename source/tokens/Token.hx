@@ -23,7 +23,6 @@ class Token extends Obstacle
 	public static function overlapsWithPlayer(player:FlxBasic, scoreToken:Token)
 	{
 		scoreToken.kill();  //Remove token when collide with player
-		//var hud:Hud;
 		HUD.addScore(1);    //Add 1 to coin score when player collides
 	}	
 }
