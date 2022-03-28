@@ -98,15 +98,13 @@ class PlayState extends FlxState {
 
 		FlxG.collide(player, obstacleGenerator.obstacles);
 		FlxG.overlap(player, deadlyObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
+
 		// End the game if the player reaches 0 lives or health
 		if (player.health <= 0) {
 			ending = true;
-			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, gameOver);
+			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function gameOver() {
+				FlxG.switchState(new GameOverState());
+			});
 		}
-	}
-
-	// Helper Function: End the game
-	private function gameOver() {
-		FlxG.switchState(new GameOverState());
 	}
 }
