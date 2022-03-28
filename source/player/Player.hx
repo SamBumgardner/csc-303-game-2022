@@ -1,10 +1,8 @@
 package player;
 
-import flixel.util.FlxColor;
 import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxObject;
 
 class Player extends FlxSprite {
 	public static var SPEED(default, never):Int = 100;
@@ -25,8 +23,10 @@ class Player extends FlxSprite {
 		jump();
 
 		if (!isOnScreen()) {
-			kill();
+			hurt(1);
+			reset(FlxG.width / 2, FlxG.height / 2);
 		}
+
 		super.update(elapsed);
 	}
 
