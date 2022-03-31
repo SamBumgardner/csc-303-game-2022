@@ -15,6 +15,7 @@ import obstacle.DeadlyObstacle;
 import obstacle.Obstacle;
 import obstacle.ObstacleGenerator;
 import player.Player;
+import tokens.Token;
 
 class PlayState extends FlxState {
 	var player:Player;
@@ -26,9 +27,11 @@ class PlayState extends FlxState {
 	var heroPower:HeroPower;
 
 	var horizontalObstacleGenerator:ObstacleGenerator<HorizontalObstacle>;
+	var tokenGenerator:ObstacleGenerator<Token>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = 1.3;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 4;
+	var SECONDS_PER_TOKEN(default, never):Float = 4;	//<
 
 	public static var heroPowerSelection:HeroPowerEnum = Aegis;
 
@@ -45,11 +48,14 @@ class PlayState extends FlxState {
 		setUpHeroPower(heroPowerSelection, player);
 		add(heroPower);
 		add(player);
+		add(hud);
 
 		// set up the obstacle types
 		setUpObstacles();
 		// set up the obstacles that kill the player
 		setUpHorizontalObstacles();
+
+		setUpTokens(); //<
 
 		add(hud);
 	}
@@ -121,11 +127,35 @@ class PlayState extends FlxState {
 		var baseHorizontalObstacleParameters = new ObstacleParameters(FlxG.width, 300, 500, 30, 15);
 		var horizontalObstacleVariation = new ObstacleVariation(0, 1, 1);
 
-		horizontalObstacleGenerator = new ObstacleGenerator<HorizontalObstacle>(SECONDS_PER_DEADLY_OBSTACLE, baseHorizontalObstacleParameters,
+		horizontalObstacleGenerator = new ObstacleGenerator<HorizontalObstacle>(SECONDS_PER_DEADLY_OBSTACLE, baseHorizontalObstacleParameters, 
 			horizontalObstacleVariation, generatedHorizontalObstacles);
 		add(horizontalObstacleGenerator.obstacles);
 	}
 
+	private function setUpTokens()
+	{
+		var generatedTokens = new FlxTypedGroup<Token>();
+		for (i in 0...10)
+		{
+			var token = new Token(hud);
+
+			token.kill();
+			generatedTokens.add(token);
+		}
+
+		var baseTokenParameters = new ObstacleParameters(FlxG.width, FlxG.height, 100, 20, 20);
+		var tokenVariation = new ObstacleVariation(1, 0, 0);
+
+		tokenGenerator = new ObstacleGenerator<Token>(SECONDS_PER_TOKEN,
+		baseTokenParameters, tokenVariation, generatedTokens);
+		add(tokenGenerator.obstacles);
+	}
+	
+	public function resetScore()
+	{
+		hud.removeScore();
+	}
+	
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
@@ -142,6 +172,7 @@ class PlayState extends FlxState {
 		}
 
 		FlxG.overlap(player, horizontalObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
+		FlxG.overlap(player, tokenGenerator.obstacles, Token.overlapsWithPlayer);	//<
 		
 
 		// End the game if the player reaches 0 lives or health
