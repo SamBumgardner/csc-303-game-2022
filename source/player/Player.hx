@@ -3,6 +3,7 @@ package player;
 import heropowers.HeroPower;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 
 class Player extends FlxSprite {
 	public static var SPEED(default, never):Int = 100;
@@ -71,5 +72,7 @@ class Player extends FlxSprite {
 		health = maxHealth;
 		currentPower.inUse = false;
 		currentPower.usable = true;
+		cast(FlxG.state, PlayState).resetScore(); 
+
 	}
 }
