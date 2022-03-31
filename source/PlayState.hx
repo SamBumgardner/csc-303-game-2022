@@ -12,6 +12,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
 import obstacle.DeadlyObstacle;
+import obstacle.FlyingEnemy;
 import obstacle.Obstacle;
 import obstacle.ObstacleGenerator;
 import player.Player;
@@ -27,10 +28,12 @@ class PlayState extends FlxState {
 	var heroPower:HeroPower;
 
 	var horizontalObstacleGenerator:ObstacleGenerator<HorizontalObstacle>;
+	var flyingEnemyGenerator:ObstacleGenerator<FlyingEnemy>;
 	var tokenGenerator:ObstacleGenerator<Token>;
 
 	var SECONDS_PER_OBSTACLE(default, never):Float = 1.3;
 	var SECONDS_PER_DEADLY_OBSTACLE(default, never):Float = 4;
+	var SECONDS_PER_FLYING_ENEMY(default, never):Float = 15;
 	var SECONDS_PER_TOKEN(default, never):Float = 4;	//<
 
 	public static var heroPowerSelection:HeroPowerEnum = Aegis;
@@ -54,6 +57,7 @@ class PlayState extends FlxState {
 		setUpObstacles();
 		// set up the obstacles that kill the player
 		setUpHorizontalObstacles();
+		setUpFlyingEnemies();
 
 		setUpTokens(); //<
 
@@ -132,6 +136,21 @@ class PlayState extends FlxState {
 		add(horizontalObstacleGenerator.obstacles);
 	}
 
+	private function setUpFlyingEnemies() {
+		var generatedFlyingEnemies = new FlxTypedGroup<FlyingEnemy>();
+
+		var flyingEnemy = new FlyingEnemy();
+		flyingEnemy.kill();
+		generatedFlyingEnemies.add(flyingEnemy);
+
+		var baseFlyingEnemyParameters = new ObstacleParameters(FlxG.width, FlxG.height, 50, 30, 30);
+		var flyingEnemyVariation = new ObstacleVariation(-1, 0, 0);
+
+		flyingEnemyGenerator = new ObstacleGenerator<FlyingEnemy>(SECONDS_PER_FLYING_ENEMY, 
+			baseFlyingEnemyParameters, flyingEnemyVariation, generatedFlyingEnemies);
+		add(flyingEnemyGenerator.obstacles);
+	}	
+
 	private function setUpTokens()
 	{
 		var generatedTokens = new FlxTypedGroup<Token>();
@@ -172,6 +191,7 @@ class PlayState extends FlxState {
 		}
 
 		FlxG.overlap(player, horizontalObstacleGenerator.obstacles, DeadlyObstacle.overlapsWithPlayer);
+		FlxG.overlap(player, flyingEnemyGenerator.obstacles, FlyingEnemy.overlapsWithPlayer);
 		FlxG.overlap(player, tokenGenerator.obstacles, Token.overlapsWithPlayer);	//<
 		
 
