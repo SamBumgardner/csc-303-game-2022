@@ -15,7 +15,7 @@ class Player extends FlxSprite {
 
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
-		this.loadGraphic(AssetPaths.playerGraphic__png, false, 40, 40, false, "Player");
+		this.loadGraphic(AssetPaths.playerGraphic__png, false, 38, 38, false);
 		health = maxHealth;
 		acceleration.y = 300;
 	}
