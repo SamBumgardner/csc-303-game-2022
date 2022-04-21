@@ -11,12 +11,16 @@ class Obstacle extends FlxSprite {
 		immovable = true;
 
 		if (parameters != null) {
+			// this gives the obstacle its init values
 			init(parameters);
 		}
 	}
 
 	public function init(parameters:ObstacleParameters) {
+		// revive the obstace to be drawn again
 		super.reset(parameters.x, parameters.y);
+
+		// set the velocity to whatever the speed is but neg
 
 		velocity.x = -parameters.speed;
 
@@ -25,22 +29,40 @@ class Obstacle extends FlxSprite {
 		this.width = parameters.width;
 		this.height = parameters.height;
 		this.clipRect = sizingRect;
+
+		this.y = parameters.y;
 	}
 
 	override public function update(elapsed:Float) {
+		// if the object has moved off screen
 		if (movedOffScreen()) {
+			// dont draw it
 			kill();
 		}
+
+		yValIfWrapping();
 
 		super.update(elapsed);
 	}
 
+	private function yValIfWrapping() {
+		if (y < 0 - height) {
+			y = FlxG.height;
+		}
+
+		if (y > FlxG.height) {
+			y = 0 - height;
+		}
+	}
+
 	private function movedOffScreen() {
+		// check to see if the object has moved off screen
 		return x + width < FlxG.camera.scroll.x;
 	}
 }
 
 class ObstacleParameters {
+	// just used to hold the parameters passed to the obstacle constructor
 	public var x:Float;
 	public var y:Float;
 	public var speed:Float;

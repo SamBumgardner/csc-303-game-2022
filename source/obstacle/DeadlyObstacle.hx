@@ -1,6 +1,7 @@
 package obstacle;
 
-
+import flixel.FlxG;
+import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.math.FlxRect;
 import flixel.FlxBasic;
