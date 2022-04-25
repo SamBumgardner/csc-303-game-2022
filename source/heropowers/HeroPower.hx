@@ -14,9 +14,10 @@ class HeroPower extends FlxSprite {
 		super(X, Y);
 		owner = player;
 
-		loadGraphicFromSprite(owner);
+		// loadGraphicFromSprite(owner);
+		this.loadGraphic(AssetPaths.playerGraphicShield2__png, false, 42, 42, false);
 		setGraphicSize(Std.int(width * 1.5), Std.int(height * 1.5));
-		alpha = .5;
+		// alpha = .5;
 		hotkey = [FlxKey.K];
 		usable = true;
 		inUse = false;

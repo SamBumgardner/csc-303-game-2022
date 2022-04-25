@@ -5,7 +5,7 @@ import player.Player;
 class Aegis extends HeroPower {
 	public function new(X:Float = 0, Y:Float = 0, player:Player) {
 		super(X, Y, player);
-		color = 0xFFFFF000;
+		// color = 0xFFFFF000;
 		inUse = true;
 		usable = false;
 		player.maxHealth = 4;

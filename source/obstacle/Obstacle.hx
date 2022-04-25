@@ -1,5 +1,6 @@
 package obstacle;
 
+import flixel.math.FlxRect;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
@@ -20,13 +21,16 @@ class Obstacle extends FlxSprite {
 		super.reset(parameters.x, parameters.y);
 
 		// set the velocity to whatever the speed is but neg
-		
+
 		velocity.x = -parameters.speed;
 
-		this.y = parameters.y;
+		var sizingRect:FlxRect = new FlxRect(0, 0, parameters.width, parameters.height);
+		loadGraphic(AssetPaths.brick__jpg);
+		this.width = parameters.width;
+		this.height = parameters.height;
+		this.clipRect = sizingRect;
 
-		// used to create as a rectangle
-		makeGraphic(parameters.width, parameters.height);
+		this.y = parameters.y;
 	}
 
 	override public function update(elapsed:Float) {
